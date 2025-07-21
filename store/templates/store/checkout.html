@@ -1,0 +1,43 @@
+{% load static %} {% load cart_extras %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Checkout</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f0f0f0;
+      }
+      .checkout-box {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .checkout-item {
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+      }
+      .checkout-total {
+        text-align: right;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="checkout-box">
+      <h2>Order Summary</h2>
+      {% for item in cart_items %}
+      <div class="checkout-item">
+        {{ item.name }} - ₹{{ item.price }} × {{ cart|get_item:item.id }}
+      </div>
+      {% endfor %}
+      <div class="checkout-total">Total: ₹{{ total }}</div>
+      <button onclick="alert('Order placed!')">Place Order</button>
+    </div>
+  </body>
+</html>

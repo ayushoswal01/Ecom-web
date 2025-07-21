@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Buy Now | Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(to right, #667eea, #764ba2);
+        color: #fff;
+        margin: 0;
+        padding-top: 80px;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .navbar h1 {
+        font-size: 24px;
+        margin: 0;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .container {
+        max-width: 700px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .product {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .product img {
+        width: 200px;
+        border-radius: 12px;
+      }
+
+      .product-details {
+        flex: 1;
+      }
+
+      .product-details h2 {
+        margin: 0 0 10px;
+      }
+
+      .product-details p {
+        color: #e2e2e2;
+      }
+
+      .price {
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 15px;
+      }
+
+      .buy-btn {
+        margin-top: 25px;
+        background: gold;
+        color: #333;
+        font-weight: bold;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .buy-btn:hover {
+        background: #ffd700cc;
+      }
+
+      @media (max-width: 768px) {
+        .product {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .product img {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <h1>🛍️ Checkout</h1>
+      <div class="nav-links">
+        <a href="{% url 'store:home' %}">Home</a>
+        <a href="{% url 'store:cart' %}">Cart</a>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'store:logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'store:login' %}">Login</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Checkout Product -->
+    <div class="container">
+      <div class="product">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+        <div class="product-details">
+          <h2>{{ product.name }}</h2>
+          <p>{{ product.description }}</p>
+          <div class="price">Price: ₹{{ product.price }}</div>
+          <button class="buy-btn" onclick="alert('Order placed successfully!')">
+            Confirm Purchase
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

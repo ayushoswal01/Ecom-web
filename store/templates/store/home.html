@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Shop | Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        margin: 0;
+        background: linear-gradient(to right, #667eea, #764ba2);
+        color: #fff;
+        padding-top: 80px;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .navbar h1 {
+        font-size: 24px;
+        color: #fff;
+        margin: 0;
+      }
+
+      .navbar .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #e0e0e0;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 40px;
+      }
+
+      .product-card {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .product-card img {
+        width: 100%;
+        max-height: 180px;
+        object-fit: contain;
+        border-radius: 12px;
+        margin-bottom: 15px;
+      }
+
+      .product-card h3 {
+        font-size: 20px;
+        margin: 10px 0 5px;
+      }
+
+      .product-card p {
+        font-size: 16px;
+        color: #e2e2e2;
+      }
+
+      .product-card .price {
+        font-size: 18px;
+        margin: 10px 0;
+        font-weight: bold;
+      }
+
+      .product-card .actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .product-card button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .product-card .btn-cart {
+        background: #fff;
+        color: #333;
+      }
+
+      .product-card .btn-buy {
+        background: #ffd700;
+        color: #333;
+      }
+
+      .product-card button:hover {
+        opacity: 0.9;
+        transform: scale(1.03);
+      }
+
+      @media (max-width: 600px) {
+        .navbar {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 15px;
+        }
+        .nav-links {
+          margin-top: 10px;
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <h1>🛍️ DreamCart</h1>
+      <div class="nav-links">
+        <a href="{% url 'store:cart' %}">🛒 Cart</a>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'store:logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'store:login' %}">Login</a>
+        <a href="{% url 'store:signup' %}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="product-grid">
+      {% for product in products %}
+      <div class="product-card">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description|truncatewords:15 }}</p>
+        <div class="price">₹{{ product.price }}</div>
+        <div class="actions">
+          <form method="post" action="{% url 'store:add_to_cart' product.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-cart">Add to Cart</button>
+          </form>
+          <a href="{% url 'store:buy_now' product.id %}">
+            <button class="btn-buy">Buy Now</button>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'store/css/chatbot.css' %}" />
+    <script src="{% static 'store/js/chatbot.js' %}"></script>
+  </body>
+</html>
