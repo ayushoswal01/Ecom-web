@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-test-key'
@@ -26,6 +26,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
