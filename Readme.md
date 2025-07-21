@@ -67,4 +67,3 @@ python manage.py runserver
 ```
 
 
-https://github.com/ayushoswal01/Ecom-web
